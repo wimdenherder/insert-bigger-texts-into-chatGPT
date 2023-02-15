@@ -16,17 +16,18 @@ async function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// create slices of 4000 characters of variable u
+// create slices of maxSizePerMessage characters of variable u
 
 async function insertBigText() {
   const pauseBetweenMessages = 2000; // ms
+  const maxSizePerMessage = 10 * 1000;
   let loop = 0;
-  for(let i = 0; i < u.length; i += 4000) {
+  for(let i = 0; i < u.length; i += maxSizePerMessage) {
     if(loop % 3 === 0) {
       query(`I'm going to send you a big text in multiple messages. You should just say "OK"`);
       await wait(pauseBetweenMessages);
     }
-    query('Just respond with "OK" after this message. \n\n' + u.slice(i, i + 4000));
+    query('Just respond with "OK" after this message. \n\n' + u.slice(i, i + maxSizePerMessage));
     await wait(pauseBetweenMessages);
     loop++;
   }
