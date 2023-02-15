@@ -1,7 +1,7 @@
 // load big text in variable u
 
 function query(text) {
-  document.querySelector("textarea").value = decodeURIComponent(text);
+  document.querySelector("textarea").value = text;
   const buttons = document.querySelectorAll("button");
   console.log({buttons})
   if(buttons?.length > 0) {
