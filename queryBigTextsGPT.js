@@ -1,5 +1,3 @@
-let u = '';
-
 // load big text in variable u
 
 function query(text) {
