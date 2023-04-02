@@ -18,7 +18,7 @@ Follow these steps to install a Chrome extension from a zip file using developer
 7. **Select the folder** and click the **Select folder** button.
 8. The Chrome extension will now be installed and should appear in the list of installed extensions on the `chrome://extensions` page.
 
-> :warning: **Note:** Installing extensions from sources other than the Chrome Web Store can be risky, as they may not be verified by Google and could potentially contain malicious code. Therefore, it is recommended to only install extensions from trusted sources.
+> :warning: **Note:** Installing extensions from sources other than the Chrome Web Store can be risky, as they may not be verified by Google and could potentially contain malicious code. Therefore, it is recommended to check the code (queryBigTextsGPT.js) before proceeding. Of course, I can tell you, that this extension is safe, but you have to check it yourself in general. 
 
 
 ### Direct execution of script
