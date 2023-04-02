@@ -19,28 +19,62 @@ async function wait(ms) {
 
 // create slices of maxSizePerMessage characters of variable u
 
+function changeBackgroundColor(color) {
+  color = color || getRandomBrightColor();
+  document.body.style.background = color;
+  ["dark:bg-gray-800", "bg-gray-50"].forEach(className => {
+    const elements = document.getElementsByClassName(className);
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].style.backgroundColor = color;
+    }
+  })
+}
+
+function getRandomBrightColor() {
+  while (true) {
+    // Generate a random color using the RGB color model
+    const color = [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)];
+    // Calculate the brightness of the color using the luminosity formula
+    const brightness = 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2];
+    // Check if the brightness is greater than a minimum threshold (50 in this case)
+    if (brightness > 50) {
+      // Convert the color array to a CSS color string and return it
+      return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+    }
+  }
+}
+
 async function insertBigText(superlongText) {
   const pauseBetweenMessages = 3000; // ms
   const maxSizePerMessage = 10 * 1000;
+  if(superlongText.length < maxSizePerMessage)
+    return query(superlongText);
   let loop = 0;
   for(let i = 0; i < superlongText.length; i += maxSizePerMessage) {
     if(loop % 3 === 0) {
-      query(`I'm going to send you a big text in multiple messages. You should just say "OK"`);
-      await wait(pauseBetweenMessages);
+      changeBackgroundColor();
+      query(`I'm going to send you a big text in multiple messages. You should just say "OK". Do you understand this? Please say OK`);
+      await wait(1000);
     }
-    query('Just respond with "OK" after this message. \n\n' + superlongText.slice(i, i + maxSizePerMessage));
-    await wait(pauseBetweenMessages);
+    changeBackgroundColor();
+    query('Only respond with the text "OK" after this message. \n\n' + superlongText.slice(i, i + maxSizePerMessage));
+    if(i + 1 < superlongText.length) await wait(pauseBetweenMessages);
     loop++;
   }
 }
 
 async function main() {
+  changeBackgroundColor();
+  await new Promise(x => setTimeout(x, 200));
   let superlongText = window.prompt("Please enter your (large) text here. It will be inserted into GPT");
-  if(superlongText.length === 0)
+  if(superlongText.length === 0) {
+    changeBackgroundColor("white");
     return alert('Please load big text in variable u');
+  }
   await insertBigText(superlongText);
-  await wait(1000);
-  query(`Could you summarize all text above with bullet points?`);
+  changeBackgroundColor("white");
+  // await wait(1000);
+  // query(`Could you summarize all text above with bullet points?`);
 }
 
 main();
