@@ -19,25 +19,26 @@ async function wait(ms) {
 
 // create slices of maxSizePerMessage characters of variable u
 
-async function insertBigText() {
-  const pauseBetweenMessages = 2000; // ms
+async function insertBigText(superlongText) {
+  const pauseBetweenMessages = 3000; // ms
   const maxSizePerMessage = 10 * 1000;
   let loop = 0;
-  for(let i = 0; i < u.length; i += maxSizePerMessage) {
+  for(let i = 0; i < superlongText.length; i += maxSizePerMessage) {
     if(loop % 3 === 0) {
       query(`I'm going to send you a big text in multiple messages. You should just say "OK"`);
       await wait(pauseBetweenMessages);
     }
-    query('Just respond with "OK" after this message. \n\n' + u.slice(i, i + maxSizePerMessage));
+    query('Just respond with "OK" after this message. \n\n' + superlongText.slice(i, i + maxSizePerMessage));
     await wait(pauseBetweenMessages);
     loop++;
   }
 }
 
 async function main() {
-  if(u.length === 0)
+  let superlongText = window.prompt("Please enter your (large) text here. It will be inserted into GPT");
+  if(superlongText.length === 0)
     return alert('Please load big text in variable u');
-  await insertBigText();
+  await insertBigText(superlongText);
   await wait(1000);
   query(`Could you summarize all text above with bullet points?`);
 }
